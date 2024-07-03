@@ -1,3 +1,5 @@
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 class HelloWorldPrinter extends Thread{
     @Override
@@ -28,6 +30,20 @@ class DemoThread extends Thread{
     }
 }
 
+
+class NumberPrinter2 implements Runnable{
+    int number;
+
+    public NumberPrinter2(int n){
+        this.number=n;
+    }
+
+    @Override
+    public void run(){
+        System.out.println(Thread.currentThread().getName()+" , "+this.number);
+    }
+}
+
 public class ThreadNamePrinter {
 
 
@@ -49,9 +65,21 @@ public class ThreadNamePrinter {
         // numberPrinter2.start();
 
 
+        // for(int i=1;i<=100;i++){
+        //     DemoThread thread = new DemoThread(i);
+        //     thread.start();
+        // }
+
+
+
+        // for(int i=1;i<=100;i++){
+        //     Thread newThread = new Thread(new NumberPrinter2(i));
+        //     newThread.start();
+        // }
+
+        ExecutorService es = Executors.newFixedThreadPool(10);
         for(int i=1;i<=100;i++){
-            DemoThread thread = new DemoThread(i);
-            thread.start();
+            es.submit(new NumberPrinter2(i));
         }
     }
 }
